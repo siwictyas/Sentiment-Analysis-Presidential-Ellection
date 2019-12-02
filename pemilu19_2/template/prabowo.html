@@ -1,0 +1,358 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title> SEBARAN KATA - 02 </title>
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/bootstrap.css'%}">
+  	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<script src="{% static 'vendor/bootstrap/bootstrap.js'%}" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js "></script>
+	<!-- <script src="bootstrap.bundle.min.js / bootstrap.bundle.js"></script> -->
+
+</head>
+<style>
+	.card-footer{
+		text-align: center;
+		font-weight: bold;
+	}
+	
+	h6{
+    	color: white;
+    	font-size: 16px;
+  	}
+
+	.topic{
+		box-shadow: 0.1px 0.1px 15px 0.1px lightgray;
+		margin:2px;
+	}
+
+	.box{
+		background-color: #fcffff;
+		padding-top: 0px;
+	}
+
+	.card_body{
+		background-color: white;
+	}
+
+	.card-header-tabs{
+		margin-left: -20px;
+	}
+
+	.nav_box.active{
+		background-color: whitesmoke;
+	}
+
+	.card-topmodel h1{
+	    font-family: 'Open Sans', sans-serif;
+	    font-weight: bold;
+	    color: white;
+	    margin-top: 20%;
+	    font-size: 60px;
+	    text-align: center;
+	}
+
+	.card-topmodel p{
+		color: white;
+		font-size: 16px;
+		font-weight: normal;
+		margin-top: -15px;
+		text-align:center;
+	}
+
+	.btn-pos{
+		background-color: rgba(255,255,255,0.9);
+		color: rgb(84, 195, 247);
+		margin-top: -10px;
+	}
+
+	.btn-pos:hover{
+		color: white;
+		background-color: rgb(84, 195, 247);
+	}
+
+	.btn-neg{
+		background-color: rgba(255,255,255,0.9);
+		color: rgb(255, 107, 107);
+		margin-top: -10px;
+	}
+
+	.btn-neg:hover{
+		color: white;
+		background-color: rgb(255, 107, 107);
+	}
+
+	.card-carousel-pos, .card-carousel-neg{
+		background-color: rgba(84, 195, 247,0.8);
+		text-align: center;
+		height: 40px;
+		padding-top: 8px;
+	}
+
+	.card-carousel-pos{
+		background-color: rgba(84, 195, 247,0.8);
+	}
+	.card-carousel-neg{
+		background-color: rgba(255, 107, 107,0.8);
+	}
+
+</style>
+
+<body>
+	<body style="background-color: #fcffff">
+		<!-- NAVIGASI -->
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top nav_header">
+		<div class="col-sm-5">
+  			<a class="navbar-brand" href="#">Analisis Calon Presiden-Wakil Presiden RI 2019 </a>
+  		</div>
+  		<div class="col-sm-3 offset-md-4">
+  			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    			<div class="navbar-nav">
+      				<a class="nav-item nav-link active" href="/">Analisis Sentimen <span class="sr-only">(current)</span></a>
+      				<li class="nav-item dropdown">
+        				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sebaran Kata </a>
+			        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+			        	<a class="dropdown-item" href="/jokowi">Joko Widodo - Maruf Amin</a>
+			        	<a class="dropdown-item" href="/prabowo">Prabowo Subianto - Sandiaga Uno</a>
+			        </div>
+      				</li>
+  				</div>
+    		</div>
+  		</div>
+	</nav>
+	<!-- CARD POSITIF -->
+  		<div class="row mt-5 justify-content-md-center">
+  		<div class="row mt-4 justify-content-md-center">
+		    <div class="card" style="width: 80%">
+		    	<div class="row">
+		    		<div class="col-sm-7">
+		    			<img src="{% static "img/02/pos-gabung.png"%}" class="card-img-top" alt="..." style="padding-left: 5px; padding-right: 5px">
+		    		</div>
+	
+		    		<div class="col-sm-5 card-topmodel text-center" style="background-color: rgb(84, 195, 247)">
+				    	<h1> {{positif_persen_02}}% </h1>
+				    	<p> tweet positif</p>
+				    		<button class="btn btn-pos" type="button" data-toggle="collapse" data-target="#collapsePositif" aria-expanded="false">
+				    	  		Lihat Sebaran Topik
+				    	  	</button>
+				    	  </div>
+			    	</div>
+			    </div>
+			</div>
+<!-- COLLAPSE POSITIF -->
+		<div class="collapse mb-2" id="collapsePositif">
+			<div class="row justify-content-md-center ml-1">
+			<div class="card" style="width: 80%; border:0px">
+				<section class="carousel slide" data-ride="carousel" id="postsCarousel">
+				    <div class="row mt-2">
+				    	<div class="col-sm-1" style="margin-top: 10%">
+				    		<a class="btn btn-secondary-outline prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+				    	</div>
+				    	<div class="col-sm-10">
+				        <div class="carousel-inner">
+				            <div class="carousel-item active">
+				                <div class="card-deck">
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/pos-1.png"%}" alt="Carousel 1">
+				                    </div>
+				                    <div class="card-body card-carousel-pos">
+				                        <h6>PEMIMPIN</h6>
+				                    </div>
+				                </div>
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/pos-2.png"%}" alt="Carousel 2">
+				                    </div>
+				                    <div class="card-body card-carousel-pos">
+				                        <h6>AKSI DAMAI</h6>
+				                    </div>
+				                </div>
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/pos-3.png"%}" alt="Carousel 3">
+				                    </div>
+				                    <div class="card-body card-carousel-pos">
+				                        <h6>KEUNGGULAN</h6>
+				                    </div>
+				                </div>
+				            </div>
+				            </div>
+				            <div class="carousel-item">
+				                <div class="card-deck">
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/pos-4.png"%}" alt="Carousel 4">
+				                    </div>
+				                    <div class="card-body card-carousel-pos">
+				                        <h6>KAMPANYE TERBUKA</h6>
+				                    </div>
+				                </div>
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/pos-1.png"%}" alt="Carousel 4">
+				                    </div>
+				                    <div class="card-body card-carousel-pos">
+				                        <h6>DUKUNGAN</h6>
+				                    </div>
+				                </div>
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/pos-2.png"%}" alt="Carousel 4">
+				                    </div>
+				                    <div class="card-body card-carousel-pos">
+				                        <h6>AKSI DAMAI</h6>
+				                    </div>
+				                </div>
+				            </div>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="col-sm-1" style="margin-top: 10%">
+				    	 <a class="btn btn-secondary-outline next center" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>
+				    </div>
+				</div>
+				</section>
+			</div>
+		</div>
+		</div>
+		<!-- NEGATIF CARD -->
+  		<div class="row justify-content-md-center">
+  		<div class="row mt-2 justify-content-md-center">
+		  <!-- <div class="col mt-5"> -->
+		    <div class="card" style="width: 80%">
+		    	<div class="row">
+		    		<div class="col-sm-7">
+		    			<img src="{% static "img/02/neg-gabung.png"%}" class="card-img-top" alt="..." style="padding-left: 5px; padding-right: 5px">
+		    		</div>
+	
+		    		<div class="col-sm-5 card-topmodel text-center" style="background-color: rgb(255, 107, 107)">
+				    	<h1> {{negatif_persen_02}}% </h1>
+				    	<p> tweet negatif</p>
+				    		<button class="btn btn-neg" type="button" data-toggle="collapse" data-target="#collapseNegatif" aria-expanded="false">
+				    	  		Lihat Sebaran Topik
+				    	  	</button>
+				    	  </div>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<!-- COLLAPSE NEGATIF -->
+		<div class="collapse" id="collapseNegatif">
+			<div class="row justify-content-md-center ml-1">
+			<div class="card" style="width: 80%; border:0px">
+				<section class="carousel slide" data-ride="carousel" id="postsCarousel">
+				    <div class="row mt-2">
+				    	<div class="col-sm-1" style="margin-top: 10%">
+				    		<a class="btn btn-secondary-outline prev" href="" title="go back"><i class="fa fa-lg fa-chevron-left"></i></a>
+				    	</div>
+				    	<div class="col-sm-10">
+				        <div class="carousel-inner">
+				            <div class="carousel-item active">
+				                <div class="card-deck">
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/neg-1.png"%}" alt="Carousel 1">
+				                    </div>
+				                    <div class="card-body card-carousel-neg">
+				                        <h6>MALU</h6>
+				                    </div>
+				                </div>
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/neg-2.png"%}" alt="Carousel 2">
+				                    </div>
+				                    <div class="card-body card-carousel-neg">
+				                        <h6>HASIL</h6>
+				                    </div>
+				                </div>
+				                <div class="card h-100">
+				                    <div class="card-img-top card-img-top-250">
+				                        <img class="img-fluid" src="{% static "img/02/neg-3.png"%}" alt="Carousel 3">
+				                    </div>
+				                    <div class="card-body card-carousel-neg">
+				                        <h6>1998</h6>
+				                    </div>
+				                </div>
+				            </div>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="col-sm-1" style="margin-top: 10%">
+				    	 <a class="btn btn-secondary-outline next center" href="" title="more"><i class="fa fa-lg fa-chevron-right"></i></a>
+				    </div>
+				</div>
+				</section>
+			</div>
+		</div>
+		</div>
+		</div>
+	</div>
+	<div id="carousel-example-multi" class="carousel slide carousel-multi-item v-2" data-ride="carousel">
+
+<!-- 		  <div class="col-sm-5 mt-5">
+		    <div class="card">
+		    	<img src="{% static "img/twit.png"%}" class="card-img-top" alt="...">
+			    <div class="card-footer footer-topmodel" style="background-color: rgb(255, 107, 107)">
+			    	<h1> {{negatif_persen_02}}% </h1>
+			    	<p> tweet negatif </p>
+			    		<button class="btn btn-neg" type="button" data-toggle="collapse" data-target="#collapsePositif" aria-expanded="false" aria-controls="collapseExample">
+			    	  		Lihat Sebaran Kata
+			    	  	</button>
+			    </div>
+		    </div>
+		  </div> -->
+</body>
+<script>
+$('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
+  var next = $(this).next();
+  if (!next.length) {
+    next = $(this).siblings(':first');
+  }
+  next.children(':first-child').clone().appendTo($(this));
+
+  for (var i=0;i<4;i++) {
+    next=next.next();
+    if (!next.length) {
+      next=$(this).siblings(':first');
+    }
+    next.children(':first-child').clone().appendTo($(this));
+  }
+});
+
+
+
+
+	$('.btn-pos').on('click', function(){
+  		$('#collapsePositif').toggleClass('-expanded');
+		if ($('#collapsePositif').hasClass('-expanded')) {
+    		$('.btn-pos').html('Tutup');
+  		} else {
+    		$('.btn-pos').html('Lihat Sebaran Topik');
+  		}
+	});
+
+	$('.btn-neg').on('click', function(){
+  		$('#collapseNegatif').toggleClass('-expanded');
+		if ($('#collapseNegatif').hasClass('-expanded')) {
+    		$('.btn-neg').html('Tutup');
+  		} else {
+    		$('.btn-neg').html('Lihat Sebaran Topik');
+  		}
+	});
+
+	(function($) {
+    "use strict";
+
+    // manual carousel controls
+    $('.next').click(function(){ $('.carousel').carousel('next');return false; });
+    $('.prev').click(function(){ $('.carousel').carousel('prev');return false; });
+    
+})(jQuery);
+</script>
+</html>

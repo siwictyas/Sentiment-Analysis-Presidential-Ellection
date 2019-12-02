@@ -1,0 +1,18 @@
+.nav_header{
+	background-color: #ff6666;
+	box-shadow: 3px 3px #D3D3D3;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	color: white;
+}
+
+.sentimen{
+	border : 3px solid lightgray;
+	box-shadow: 2px 7px whitesmoke;
+	border-radius: 10px;
+}
+
+.btn_topic{
+	align-items: bottom;
+	background: whitesmoke;
+}

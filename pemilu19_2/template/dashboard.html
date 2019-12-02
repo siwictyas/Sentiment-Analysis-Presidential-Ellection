@@ -1,0 +1,677 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Selamat Datang</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/bootstrap.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<script src="{% static 'vendor/bootstrap/bootstrap.js'%}" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js "></script>
+	<!-- <script src="bootstrap.bundle.min.js / bootstrap.bundle.js"></script> -->
+	<!-- HIGHCHART -->
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	<script src="https://code.highcharts.com/modules/export-data.js"></script>
+</head>
+
+<style>
+	.collapse-tweet{
+    	width: 1250px;
+    	margin: 0px 20px;
+	}
+
+	.nav_header{
+		background: white;
+		color: #ff6666;
+		border-bottom: none;
+		border-radius: 0px;
+		box-shadow: 2px 2px 10px lightgray;
+	}
+
+	.nav_header h3{
+		font-size: 20px;
+	}
+
+	.tweet h5{
+		color: black;
+		text-decoration: none;
+		font-variant: bold;
+		text-align: center;
+	}
+
+	.chart{
+		font-size: 24px;
+		font-weight: bold;
+		color: dimgray;
+	}
+
+	.card-text{
+		font-size: 32px;
+		font-weight: bold;
+		margin-bottom: 0px;
+	}
+
+	.form-control{
+		background-color: transparent;
+		border: none;
+		width: 10%;
+		border-bottom: 2px solid gray;
+		border-radius: 0px;
+		color: black;
+	}
+
+	.form-control:focus {
+	  color: #495057;
+	  background-color: transparent;
+	  border-color: gray;
+	  outline: 0;
+	  box-shadow: none;
+	}
+
+	.dashboard{
+		box-shadow: 0.1px 0.1px 15px 0.1px lightgray;
+		background-color: white;
+		border-radius: 0px;
+	}
+
+	.sentimen{
+		box-shadow: 0.1px 0.1px 15px 0.1px lightgray;
+		border-radius: 0px;
+		border: none;
+	}
+
+	.center {
+	  display: block;
+	  margin-left: auto;
+	  margin-right: auto;
+	  width: 50%;
+	}
+	.custom-select {
+	  border: 0px;
+	  border-bottom: 2px solid gray;
+	  border-radius: 0px;
+	  background-color: transparent;
+	}
+
+	.custom-select:focus {
+	  border-color: lightgray;
+	  outline: 0;
+	  box-shadow: 0 0 0 0.2rem transparent;
+	}
+
+	.box{
+		font-size: 16px;
+	}
+
+	.card-chart{
+		background-color: whitesmoke;
+		padding: 5px 0px;
+		border-radius: 10px;
+		text-align: center;
+		margin-bottom: 30px;
+	}
+
+</style>
+
+<body style="background-color: #fcffff">
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top nav_header">
+		<div class="col-sm-5">
+  			<a class="navbar-brand" href="/">Analisis Calon Presiden-Wakil Presiden RI 2019 </a>
+  		</div>
+  		<div class="col-sm-3 offset-md-4">
+  			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    			<div class="navbar-nav">
+      				<a class="nav-item nav-link active" href="/">Analisis Sentimen </a>
+      				<li class="nav-item dropdown">
+        				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sebaran Kata </a>
+			        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+			        	<a class="dropdown-item" href="/jokowi">Joko Widodo - Maruf Amin</a>
+			        	<a class="dropdown-item" href="/prabowo">Prabowo Subianto - Sandiaga Uno</a>
+			        </div>
+      				</li>
+  				</div>
+    		</div>
+  		</div>
+	</nav>
+	<div class="row mt-4 mr-5 ml-5 mb-1">
+		<div class="col mt-5">
+			<div class="card border-light mb-1 dashboard">
+				<div class="card-body">
+			 		<div class="row">
+			 			<div class="col-sm-8" style="color: #ffc826">
+			 				<p class="card-text">{{jumlah}}</p>
+			    			<h5 class="card-title box">Jumlah Tweet</h5>
+			    		</div>
+				    	<div class="col-sm-4">
+				    		<i class='fas fa-calculator' style='font-size:64px; color:#ffc826'></i>
+				    	</div>
+			    	</div>
+			    	<div class="row">
+			    		<p class="ml-3" style="color: rgb(234, 184, 35)"> {{text}}</p>
+			    	</div>
+				</div>
+		 	</div>
+		</div>
+		<div class="col mt-5">
+			<div class="card border-light mb-1 dashboard">
+			 	<div class="card-body">
+			 		<div class="row">
+			 			<div class="col-sm-8" style="color:#296C3D ">
+			    			<p class="card-text">{{positif}}</p>
+			    			<h5 class="card-title box">Tweet Positif</h5>
+			    		</div>
+				    	<div class="col-sm-4">
+				    		<i class='fas fa-plus' style='font-size:64px;color:#296C3D'></i>
+				    	</div>
+			    	</div>
+			    	<div class="row">
+			    		<p class="ml-3" style="color: #296C3D"> {{text}}</p>
+			    	</div>
+			  	</div>
+			</div>
+		</div>
+		<div class="col mt-5">
+			<div class="card border-light mb-1 dashboard">
+				<div class="card-body">
+					<div class="row">
+			 			<div class="col-sm-8" style="color:#d63017">
+			    			<p class="card-text">{{negatif}}</p>
+			    			<h5 class="card-title box">Tweet Negatif</h5>
+			    		</div>
+				    	<div class="col-sm-4">
+				    		<i class='fas fa-minus' style='font-size:64px;color:#d63017'></i>
+				    	</div>
+					</div>
+					<div class="row">
+			    		<p class="ml-3" style="color: #bf1f07"> {{text}}</p>
+			    	</div>
+				</div>
+			</div>	
+		</div>		
+	</div>
+	<div class="row">
+		<div class="col ml-5 mr-5 mt-2">
+			<div class="card sentimen ml-2 mr-2">
+				<!-- <div class="card-title chart ml-5 mt-2 mb-0"> Analisis Sentimen</div> -->
+				<div class="row justify-content-md-center mt-4 mb-0">
+					<h3> Perbandingan Nilai Sentimen Setiap Paslon </h3>
+					<i class='fas fa-info-circle info fa-question-circle' data-toggle="tooltip" data-html="true" data-placement="right" style="color: black;" title="Grafik ini menunjukkan perbandingan elektabilitas kedua calon dari media sosial twitter. Nilai elektabilitas dihitung dengan menjumlah nilai sentimen positif (+1) dan sentimen negatif (-1)"></i>
+				</div>
+				<div class="card-body">
+					<!-- <canvas id="main-sentiment" width="90%" height="30%"></canvas> -->
+					<div id="main" style="height: 400px; margin: 0 auto"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-4">
+		<div class="col-sm-6 mb-2">
+			<div class="card sentimen ml-5 pt-3">
+				<div class="row justify-content-md-center">
+					<div class="col-sm-5">
+						<img class="center" src="{% static "img/1.jpg"%}" style="width: 90%">
+					</div>
+				</div>
+				<div class="row justify-content-md-center">
+					<h5> Joko Widodo - Maruf Amin </h5> 
+				</div>
+				<div class="card-body">
+					<h5 class="card-chart"> Sentimen Paslon 01 berdasarkan Waktu </h5>
+					<div id="line-01" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+					<br>
+					<h5 class="card-chart"> Sentimen Paslon 01 berdasarkan Pulau </h5>
+					<div id="bar-01" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 mb-2">
+			<div class="card sentimen mr-5 pt-3">
+				<div class="row justify-content-md-center">
+					<div class="col-sm-5">
+						<img class="center" src="{% static "img/2.jpg"%}" style="width: 90%">
+					</div>
+				</div>
+				<div class="row justify-content-md-center">
+					<h5> Prabowo Subianto - Sandiaga Uno </h5>
+				</div>
+				<div class="card-body">
+					<h5 class="card-chart"> Sentimen Paslon 02 berdasarkan Waktu </h5>
+					<div id="line-02" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+					<br>
+					<h5 class="card-chart"> Sentimen Paslon 02 berdasarkan Pulau </h5>
+					<div id="bar-02" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</body>
+
+<script>
+Highcharts.chart('main', {
+    chart: {
+        type: 'areaspline'
+    },
+    title: {
+        text: ''
+    },
+    legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'top',
+        x: 0,
+        y: 10,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+    },
+    xAxis: {
+        categories: [
+            'Jawa',
+            'Kalimantan',
+            'Maluku',
+            'Nusa Tenggara',
+            'Papua',
+            'Sumatera',
+            'Sulawesi'
+        ]
+    },
+    yAxis: {
+        title: {
+            text: 'Selisih Jumlah Sentimen'
+        }
+    },
+    exporting: {
+    	buttons: {
+        	contextButton: {
+            	enabled: false
+        	}
+    	}
+  	},
+    tooltip: {
+        headerFormat: '<span style="font-size:12px">Perbedaan jumlah sentimen di Pulau <b>{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' + 
+            '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    credits: {
+        enabled: false
+    },
+    plotOptions: {
+        areaspline: {
+            fillOpacity: 0.5
+        }
+    },
+    series: [{
+        name: 'PASLON 01',
+        color:'rgba(107, 162, 230, 1)',
+        data: [{{jumlah_jawa_01}},{{jumlah_kalimantan_01}},{{jumlah_kep_maluku_01}},{{jumlah_kep_nusa_01}},{{jumlah_papua_01}},{{jumlah_sumatera_01}},{{jumlah_sulawesi_01}}]
+    }, {
+        name: 'PASLON 02',
+        color:'rgba(231, 199, 95, 1)',
+        data: [{{jumlah_jawa_02}},{{jumlah_kalimantan_02}},{{jumlah_kep_maluku_02}},{{jumlah_kep_nusa_02}},{{jumlah_papua_02}},{{jumlah_sumatera_02}},{{jumlah_sulawesi_02}}]
+    }]
+});
+
+Highcharts.chart('line-01', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['Debat 1', 'Debat 2', 'Debat 3', 'Debat 4', 'Debat 5','Sesudah Pilpres']
+    },
+    yAxis: {
+        title: {
+            text: 'Persen'
+        }
+    },
+    exporting: {
+    	buttons: {
+        	contextButton: {
+            	enabled: false
+        	}
+    	}
+  	},
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: true
+        }
+    },
+    series: [{
+        name: 'Positif',
+        color:'#296C3D',
+        data: [{{debat1_pos_01}}, {{debat2_pos_01}}, {{debat3_pos_01}}, {{debat4_pos_01}}, {{debat5_pos_01}},{{indo_pasca_pos_01}}]
+    }, {
+        name: 'Negatif',
+        color:'#CB0000',
+        data: [{{debat1_neg_01}}, {{debat2_neg_01}}, {{debat3_neg_01}}, {{debat4_neg_01}}, {{debat5_neg_01}}, {{indo_pasca_neg_01}}]
+    }]
+});
+
+Highcharts.chart('line-02', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['Debat 1', 'Debat 2', 'Debat 3', 'Debat 4', 'Debat 5','Sesudah Pilpres']
+    },
+    yAxis: {
+        title: {
+            text: 'Persen'
+        }
+    },
+    exporting: {
+    	buttons: {
+        	contextButton: {
+            	enabled: false
+        	}
+    	}
+  	},
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: true
+        }
+    },
+
+    series: [{
+        name: 'Positif',
+        color:'#296C3D',
+        data: [{{debat1_pos_02}}, {{debat2_pos_02}}, {{debat3_pos_02}}, {{debat4_pos_02}}, {{debat5_pos_02}},{{indo_pasca_pos_02}}]
+    }, {
+        name: 'Negatif',
+        color:'#CB0000',
+        data: [{{debat1_neg_02}}, {{debat2_neg_02}}, {{debat3_neg_02}}, {{debat4_neg_02}}, {{debat5_neg_02}}, {{indo_pasca_neg_02}}]
+    }]
+});
+
+
+Highcharts.chart('bar-01', {
+  chart: {
+    type: 'column'
+  },
+  exporting: {
+    buttons: {
+        contextButton: {
+            enabled: false
+        }
+    }
+  },
+  title: {
+    text: '',
+  },
+  xAxis: {
+    categories: ["Jawa","Kalimantan","Maluku","Nusa Tenggara","Papua","Sumatera","Sulawesi"]
+  },
+  yAxis: {
+    allowDecimals: false,
+    min: 0,
+    max:100,
+  },
+  tooltip: {
+    formatter: function () {
+      return '<b>' + this.x + '</b><br/>' +
+        this.series.name + ': ' +'<b>'+ this.y + '%';
+    }
+  },
+  plotOptions: {
+    column: {
+    	stacking: 'normal',
+      	pointPadding: 0 ,
+    },
+    series:{
+    	pointWidth:20,
+    }
+  },
+  series: [{
+	name: 'Negatif (Sebelum Pilpres)',
+	color: '#FF5F5F',
+    data: [{{jawa_pre_neg_01}}, {{kalimantan_pre_neg_01}}, {{kep_maluku_pre_neg_01}}, {{kep_nusa_pre_neg_01}}, {{papua_pre_neg_01}},{{sumatera_pre_neg_01}},{{sulawesi_pre_neg_01}}],
+    stack: 'pre'
+  }, {
+    name: 'Positif (Sebelum Pilpres)',
+    color:'#5EFF8F',
+    data: [{{jawa_pre_pos_01}}, {{kalimantan_pre_pos_01}}, {{kep_maluku_pre_pos_01}}, {{kep_nusa_pre_pos_01}}, {{papua_pre_pos_01}},{{sumatera_pre_pos_01}},{{sulawesi_pre_pos_01}}],
+    stack: 'pre'  	
+  }, {
+    name: 'Negatif (Setelah Pilpres)',
+    color:'#CB0000',
+    data: [{{jawa_pasca_neg_01}}, {{kalimantan_pasca_neg_01}}, {{kep_maluku_pasca_neg_01}}, {{kep_nusa_pasca_neg_01}}, {{papua_pasca_neg_01}},{{sumatera_pasca_neg_01}},{{sulawesi_pasca_neg_01}}],
+    stack: 'pasca'
+  }, {
+    name: 'Positif (Setelah Pilpres)',
+    color:'#296C3D',
+    data: [{{jawa_pasca_pos_01}}, {{kalimantan_pasca_pos_01}}, {{kep_maluku_pasca_pos_01}}, {{kep_nusa_pasca_pos_01}}, {{papua_pasca_pos_01}},{{sumatera_pasca_pos_01}},{{sulawesi_pasca_pos_01}}],
+    stack: 'pasca'
+  }]
+});
+
+Highcharts.chart('bar-02', {
+  chart: {
+    type: 'column'
+  },
+  exporting: {
+    buttons: {
+        contextButton: {
+            enabled: false
+        }
+    }
+  },
+  title: {
+    text: ''
+  },
+  xAxis: {
+    categories: ["Jawa","Kalimantan","Maluku","Nusa Tenggara","Papua","Sumatera","Sulawesi"]
+  },
+  yAxis: {
+    allowDecimals: false,
+    min: 0,
+    max:100,
+  },
+  tooltip: {
+    formatter: function () {
+      return '<b>' + this.x + '</b><br/>' +
+        this.series.name + ': ' +'<b>'+ this.y + '%';
+    }
+  },
+  plotOptions: {
+    column: {
+      stacking: 'normal',
+      pointPadding: 0 ,
+    },
+    series:{
+    	pointWidth:20
+    }
+  },
+  series: [{
+	name: 'Negatif (Sebelum Pilpres)',
+	color: '#FF5F5F',
+    data: [{{jawa_pre_neg_02}}, {{kalimantan_pre_neg_02}}, {{kep_maluku_pre_neg_02}}, {{kep_nusa_pre_neg_02}}, {{papua_pre_neg_02}},{{sumatera_pre_neg_02}},{{sulawesi_pre_neg_02}}],
+    stack: 'pre'
+  }, {
+    name: 'Positif (Sebelum Pilpres)',
+    color:'#5EFF8F',
+    data: [{{jawa_pre_pos_02}}, {{kalimantan_pre_pos_02}}, {{kep_maluku_pre_pos_02}}, {{kep_nusa_pre_pos_02}}, {{papua_pre_pos_02}},{{sumatera_pre_pos_02}},{{sulawesi_pre_pos_02}}],
+    stack: 'pre'  	
+  }, {
+    name: 'Negatif (Setelah Pilpres)',
+    color:'#CB0000',
+    data: [{{jawa_pasca_neg_02}}, {{kalimantan_pasca_neg_02}}, {{kep_maluku_pasca_neg_02}}, {{kep_nusa_pasca_neg_02}}, {{papua_pasca_neg_02}},{{sumatera_pasca_neg_02}},{{sulawesi_pasca_neg_02}}],
+    stack: 'pasca'
+  }, {
+    name: 'Positif (Setelah Pilpres)',
+    color:'#296C3D',
+    data: [{{jawa_pasca_pos_02}}, {{kalimantan_pasca_pos_02}}, {{kep_maluku_pasca_pos_02}}, {{kep_nusa_pasca_pos_02}}, {{papua_pasca_pos_02}},{{sumatera_pasca_pos_02}},{{sulawesi_pasca_pos_02}}],
+    stack: 'pasca'
+  }]
+});
+
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+	var labels=["Jawa","Kalimantan","Maluku","Nusa Tenggara","Papua","Sumatera","Sulawesi"];
+	var label01 = "Joko Widodo - Maruf Amin";
+	var label02 = "Prabowo Subianto - Sandiaga Uno";
+	var bg01 = "rgba(0, 170, 255,0.3)";
+	var bg02 = "rgba(0, 230, 0, 0.3)";
+	var border01 = "rgba(0, 170, 255,0.5)";
+	var border02 = "rgba(0, 230, 0,0.5)";
+	var options = {
+  		legend:{
+  			position : 'top',
+  			float :'left',
+  			labels:{
+  				boxWidth : 15
+  			}
+  		},
+		tooltips: {
+		    callbacks: {
+        		label: function(tooltipItem, data) {
+					console.log(tooltipItem);
+               		return "Perbedaan jumlah sentimen positif dan negatif sebesar "+data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString()+" pada pasangan " +data.datasets[tooltipItem.datasetIndex].label;
+				}   
+		    }
+		},
+		scales: {
+		    yAxes: [{
+		        ticks: {
+                	beginAtZero:true
+		        }
+		    }]
+		}
+	};
+
+	var dataIndonesia = {
+		labels: labels,
+	        datasets: [
+	        	{
+	        		label:label01,
+	        		backgroundColor:bg01,
+	        		borderWidth:1,
+	        		pointBorderWidth:1,
+	        		borderColor : border01,
+	        		data:[{{jumlah_jawa_01}},{{jumlah_kalimantan_01}},{{jumlah_kep_maluku_01}},{{jumlah_kep_nusa_01}},{{jumlah_papua_01}},{{jumlah_sumatera_01}},{{jumlah_sulawesi_01}}]
+	        	},
+	        	{
+	        		label:label02,
+	        		backgroundColor:bg02,
+	        		borderWidth:1,
+	        		pointBorderWidth:1,
+	        		borderColor : border02,
+	        		data:[{{jumlah_jawa_02}},{{jumlah_kalimantan_02}},{{jumlah_kep_maluku_02}},{{jumlah_kep_nusa_02}},{{jumlah_papua_02}},{{jumlah_sumatera_02}},{{jumlah_sulawesi_02}}]
+	        	},
+	            
+	        ]
+	}
+
+	var ctx = document.getElementById("main-sentiment").getContext("2d");
+		window.myLine = Chart.Line(ctx, {
+		data: dataIndonesia,
+		options: options
+	});
+
+// var bar02 = {
+//   labels: labels,
+//   datasets: [
+//     {
+//       label: "Positif",
+//       backgroundColor: bgPos,
+//       borderColor: borderPos,
+//       borderWidth: 2,
+//       data: [{{jawa_pos_persen_02}}, {{kalimantan_pos_persen_02}}, {{kep_maluku_pos_persen_02}}, {{kep_nusa_pos_persen_02}}, {{papua_pos_persen_02}}, {{sumatera_pos_persen_02}}, {{sulawesi_pos_persen_02}}],
+//     },
+//     {
+//       label: "Negatif",
+//       backgroundColor: bgNeg,
+//       borderColor: borderNeg,
+//       borderWidth: 2,
+//       data: [{{jawa_neg_persen_02}}, {{kalimantan_neg_persen_02}}, {{kep_maluku_neg_persen_02}}, {{kep_nusa_neg_persen_02}}, {{papua_neg_persen_02}}, {{sumatera_neg_persen_02}}, {{sulawesi_neg_persen_02}}],
+//     }
+//   ]
+// };
+
+// var options02 = {
+//   	legend:{
+//   		position : 'bottom',
+//   		float :'left',
+//   		labels:{
+//   		boxWidth : 15
+//   		}
+//   	},
+// 	tooltips: {
+// 		callbacks: {
+// 			label: function(tooltipItem, data) {
+// 					console.log(tooltipItem);
+//                			return data.datasets[tooltipItem.datasetIndex].label +': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString()+" %";
+
+//                			// +"% atau sebesar "+Math.floor(Number(tooltipItem.xLabel)/100*45000)+" data";
+// 			}
+// 		}
+// 	},
+
+
+//   responsive: true,
+//   legend: {
+//     position : 'bottom',
+//   	float :'left',
+//   	labels:{
+//   		boxWidth : 15
+//   	}
+//   },
+//   title: {
+//     display: true,
+//     text: "Analisis Sentimen Pasangan Calon 02"
+//   },
+//   scales: {
+//     yAxes: [{
+//        	gridLines:{
+//       		display:false,
+//         },
+//       	ticks: {
+//         	beginAtZero: true
+//       	},
+//       	stacked:true
+//     }],
+//     xAxes:[{
+//         barPercentage: 0.2,
+//         barThickness: 6,
+//         maxBarThickness: 8,
+//        	gridLines:{
+//       		display:false,
+//         },
+// 	   	ticks:{
+// 	   		min:0,
+// 	   		max:100,
+// 	   		stepSize:10,
+// 	   	},
+// 	   	stacked:true
+// 	}]
+//   }
+// }
+
+//   var ctx = document.getElementById("sentimentByIsland02").getContext("2d");
+//   window.myBar = new Chart(ctx, {
+//     type: "horizontalBar",
+//     data: bar02,
+//     options: options02
+//   });
+	</script>
+</html>

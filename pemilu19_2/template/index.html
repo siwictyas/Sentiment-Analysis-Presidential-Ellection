@@ -1,0 +1,253 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Selamat Datang</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/bootstrap.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css'%}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<script src="{% static 'vendor/bootstrap/bootstrap.js'%}" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js "></script>
+	<script src="bootstrap.bundle.min.js / bootstrap.bundle.js"></script>
+</head>
+
+<style>
+	.collapse-tweet{
+    	width: 1250px;
+    	margin: 0px 20px;
+	}
+
+	.header-tweet{
+		background: white;
+		height: 50px;
+		box-shadow: 0px 2px lightgray;
+	}
+
+	.header-tweet:hover{
+		text-decoration: none;
+		color: "rgb(0,206,209)";
+	}
+
+	.h5-tweet{
+		color: black;
+		text-decoration: none;
+		font-variant: bold;
+		text-align: center;
+	}
+</style>
+
+<body>
+	<nav class="navbar fixed-top nav_header">
+		<h3 class="mx-auto"> ANALISIS CALON PRESIDEN RI 2019 </h3>
+	</nav>
+	<br> <br>
+	<div class="card mt-5 mb-3 mx-auto sentimen" style="width: 95%">
+		<div class="row">
+	    	<div class="col-md-4">
+	      		<img src="{% static "img/01.jpg"%}" class="card-img">
+	      		<h5 class="card-header header-nama">
+	      			1. Joko Widodo - Maruf Amin
+	      		</h5>
+	    	</div>
+	    	<div class="col-md-8">
+	      		<div class="card-body">
+	      			<div class="col-md-1 offset-md-11">
+	      				<i class='fas fa-info-circle info' data-toggle="tooltip" data-html="true" data-placement="bottom"
+	      				title="Total : {{jumlah_01}} data <br> Positif : {{positif_01}} data <br> Negatif : {{negatif_01}} data"></i>
+	      			</div>
+	        		<canvas id="jokowiChart" width="200" height=95%></canvas>
+	        		<div class="row justify-content-md-center mt-2">
+		        		<button class="btn btn-twit align-self-center" type="button" data-toggle="collapse" data-trigger="hover" data-target=".jokowi" aria-expanded="false" aria-controls="jokowiPos jokowiNeg"> Data Percakapan </button>
+					 	<a href="/jokowi" class="btn btn-topic">Sebaran Kata</a>
+	        		</div>
+	      		</div>
+    		</div>
+    			<div class="row">
+				  <div class="col">
+				    <div class="collapse jokowi" id="jokowiPos">
+				      <div class="card card-body" style="margin: 0px 0px 20px 35px">
+				      	<h5> Positif </h5>
+				      	<p style="text-align:justify;"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. </p>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="col">
+				    <div class="collapse jokowi" id="jokowiNeg">
+				      <div class="card card-body" style="margin: 0px 35px 20px 0px">
+				      	<h5> Negatif </h5>
+				        <p style="text-align:justify;"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. </p>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			</div>
+ 		</div>
+	</div>
+	<div class="card mb-3 mx-auto sentimen">
+		<div class="row no-gutters">
+		    <div class="col-md-4 img-card">
+	      		<img src="{% static "img/02.jpg"%}" class="card-img">
+	      		<h5 class="card-header header-nama">
+	      			2. Prabowo Subianto - Sandiaga Uno
+	      		</h5>
+	    	</div>	
+	    	<div class="col-md-8">
+	      		<div class="card-body">
+	      			<div class="col-md-1 offset-md-11">
+	      				<i class='fas fa-info-circle info' data-toggle="tooltip" data-html="true" data-placement="bottom" title="Total : {{jumlah_02}} data <br> Positif : {{positif_02}} data <br> Negatif : {{negatif_02}} data"></i>
+	      			</div>
+	        		<canvas id="prabowoChart" width="200" height=95%></canvas>
+	        		<div class="row justify-content-md-center mt-2">
+	        			<button class="btn btn-twit align-self-center" type="button" data-toggle="collapse" data-trigger="hover" data-target="#collapsePrabowo" aria-expanded="false" aria-controls="collapsePrabowo"> Data Percakapan </button>
+	        			<a href="/prabowo" class="btn btn-topic">Sebaran Kata</a>
+	        		</div>
+	      		</div>
+    		</div>
+	    	<div class="collapse" id="collapsePrabowo">
+				<div class="card card-body detail">
+				    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+				</div>
+			</div>
+ 		</div>
+	</div>
+
+	<script>
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
+	var labels=["Jawa","Kalimantan","Maluku","Nusa Tenggara","Papua","Sumatera","Sulawesi"];
+	var labelPos = "Positif";
+	var labelNeg = "Negatif";
+	var backgroundPos = "rgba(0,206,209,0.4)";
+	var backgroundNeg = "rgba(1220,20,60,0.4)";
+	var borderPos = "rgb(0,206,209)";
+	var borderNeg = "rgb(1220,20,60)";
+	var optionsJokowi = {
+		scaleShowLabels = true;
+		title: {
+    		display: true,
+    		text: 'Analisis Sentimen Pasangan Calon Nomor Urut 01',
+    		fontSize : 20,
+    		fontStyle : 'bold',
+    		fontColor : "#ff6666",
+    		position: 'top'
+  		},
+  		legend:{
+  			position : 'right',
+  			float :'left',
+  			labels:{
+  				boxWidth : 10
+  			}
+  		},
+		// tooltips: {
+		//     callbacks: {
+		//         label: function(tooltipItem) {
+		//             return Math.floor(Number(tooltipItem.yLabel));
+		//                 // return Math.floor(Number(tooltipItem.yLabel)) + "% atau sebesar "+Math.floor(Number(tooltipItem.yLabel)/100*45000)+" data";
+		//         }
+		//     }
+		// },
+		scales: {
+		    yAxes: [{
+		        ticks: {
+		            beginAtZero:true
+		        }
+		    }]
+	    }
+	};
+
+	var dataJokowi = {
+		labels: labels,
+	        datasets: [
+	        	{
+	        		label:labelPos,
+	        		backgroundColor:backgroundPos,
+	        		borderWidth:1,
+	        		borderColor : borderPos,
+	        		data:[{{jumlah_jawa_01}},{{jumlah_kalimantan_01}},{{jumlah_maluku_01}},{{jumlah_kep_nusa_01}},{{jumlah_papua_01}},{{jumlah_sumatera_01}},{{jumlah_sulawesi_01}}]
+	        	},
+	        	{
+	        		label:labelNeg,
+	        		backgroundColor:backgroundNeg,
+	        		borderWidth:1,
+	        		borderColor : borderNeg,
+	        		data:[-300,-200,-600,-500,800,100,500]
+	        	},
+	            
+	        ]
+	}
+
+	var optionsPrabowo = {
+		title: {
+    		display: true,
+    		text: 'Analisis Sentimen Pasangan Calon Nomor Urut 02',
+    		fontSize : 20,
+    		fontStyle : 'bold',
+    		fontColor : "#ff6666",
+    		position: 'top'
+  		},
+  		legend:{
+  			position : 'right',
+  			float :'left',
+  			labels:{
+  				boxWidth : 15
+  			}
+  		},
+		tooltips: {
+		        callbacks: {
+		            label: function(tooltipItem) {
+		                return Math.floor(Number(tooltipItem.yLabel)) + "% atau sebesar "+Math.floor(Number(tooltipItem.yLabel)/100*45000)+" data";
+		            }
+		        }
+		    },
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+	};
+
+	var dataPrabowo = {
+		labels: labels,
+	        datasets: [
+	        	{
+	        		label:labelPos,
+	        		backgroundColor:backgroundPos,
+	        		borderWidth:1,
+	        		borderColor:borderPos,
+	        		data:[{{jawa_pos_02}},{{kalimantan_pos_02}},{{sumatera_pos_02}},{{sulawesi_pos_02}},{{papua_pos_02}},{{kep_maluku_pos_02}},{{kep_nusa_pos_02}}]
+	        	},
+	        	{
+	        		label:labelNeg,
+	        		backgroundColor:backgroundNeg,
+	        		borderWidth:1,
+	        		borderColor:borderNeg,
+	        		data:[{{jawa_neg_02}},{{kalimantan_neg_02}},{{sumatera_neg_02}},{{sulawesi_neg_02}},{{papua_neg_02}},{{kep_maluku_neg_02}},{{kep_nusa_neg_02}}]
+	        	},
+	            
+	        ]
+	}
+
+	var ctx = document.getElementById("jokowiChart").getContext('2d');
+	var jokowiChart = new Chart(ctx, {
+	    type: 'bar',
+	    data: dataJokowi,
+	    options: optionsJokowi
+	});
+
+	var ctx = document.getElementById("prabowoChart").getContext('2d');
+	var prabowoChart = new Chart(ctx, {
+	    type: 'bar',
+	    data: dataPrabowo,
+	    options: optionsPrabowo
+	});
+	</script>
+</body>
+</html>
